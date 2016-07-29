@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">KeepWalking</string>
+    <string name="note_details_label">DETAILS</string>
+    <string name="note_title_hint">Enter Title</string>
+    <string name="note_details_hint">Enter Details</string>
+    <string name="note_title_label">TITLE</string>
+    <string name="save_button">SAVE</string>
+    <string name="add_button">ADD NEW NOTE</string>
+</resources>
