@@ -6,4 +6,7 @@
     <string name="note_title_label">TITLE</string>
     <string name="save_button">SAVE</string>
     <string name="add_button">ADD NEW NOTE</string>
+    <string name="save">save</string>
+    <string name="new_note">New Note</string>
+    <string name="delete_note">Delete Note</string>
 </resources>

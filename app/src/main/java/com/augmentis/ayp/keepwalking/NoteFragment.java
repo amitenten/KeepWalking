@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,7 +28,6 @@ public class NoteFragment extends Fragment {
 
     private Note note;
     private EditText editText;
-    private int position;
     private Button saveButton;
     private String tempString;
 
@@ -44,9 +46,30 @@ public class NoteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         UUID noteId = (UUID) getArguments().getSerializable(NOTE_ID);
-        note = CreateNote.getInstance(getActivity()).getNoteById(noteId);
+        note = CreateNote.getInstance(getActivity()).getNotesById(noteId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.delete_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_item_delete_note:
+                CreateNote.getInstance(getActivity()).deleteNote(note.getId());
+                getActivity().finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -55,7 +78,7 @@ public class NoteFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_note, container, false);
 
         editText = (EditText) v.findViewById(R.id.note_title);
-
+        editText.setText(note.getTitle());
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,14 +103,12 @@ public class NoteFragment extends Fragment {
             public void onClick(View v) {
 
                 note.setTitle(tempString);
+                note.setNoteDate(new Date());
+                CreateNote.getInstance(getActivity()).updateNote(note);
+                getActivity().finish();
             }
         });
 
-
         return v;
-    }
-
-    private String getFormattedDate(Date date) {
-        return new SimpleDateFormat("dd MMMM yyyy").format(date);
     }
 }
